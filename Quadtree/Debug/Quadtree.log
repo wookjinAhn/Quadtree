@@ -1,0 +1,9 @@
+﻿  main.cpp
+D:\Codes\Algorithm\Tree\Quadtree\Quadtree\Quadtree\main.cpp(25,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\Codes\Algorithm\Tree\Quadtree\Quadtree\Quadtree\main.cpp(26,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\Codes\Algorithm\Tree\Quadtree\Quadtree\Quadtree\main.cpp(27,11): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+D:\Codes\Algorithm\Tree\Quadtree\Quadtree\Quadtree\main.cpp(37,21): warning C4018: '<': signed/unsigned mismatch
+  quadtree.cpp
+  Generating Code...
+D:\Codes\Algorithm\Tree\Quadtree\Quadtree\Quadtree\quadtree.cpp(52): warning C4715: 'Quadtree::insert': not all control paths return a value
+  Quadtree.vcxproj -> D:\Codes\Algorithm\Tree\Quadtree\Quadtree\Debug\Quadtree.exe
