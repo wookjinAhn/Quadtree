@@ -1,4 +1,6 @@
 #include <random>
+#include <fstream>
+#include <sstream>
 #include "quadtree2.h"
 
 int main() {
@@ -8,9 +10,9 @@ int main() {
 
 	float WIDTH = 400;
 	float HEIGHT = 400;
-	int CAPACITY = 4;
+	int CAPACITY = 3;
 	float MINSIZE = 200;
-	int DEPTH = 2;
+	int DEPTH = 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ;
 	
 	QBox boundary(WIDTH / 2, HEIGHT / 2, WIDTH / 2, HEIGHT / 2);	// (x, y, w, h)
 
@@ -18,26 +20,39 @@ int main() {
 	Quadtree qt(boundary, DEPTH, CAPACITY);
 	std::cout << "depth : " << qt.GetDepth() << std::endl;
 
-	for (int i = 0; i < 10; i++) {
-		//float x = range(rng);
-		//float y = range(rng);
-		//Point p(x, y);
-		//std::cout << "point input | x : " << x << ", y : " << y << ", z : " << z << std::endl;
-		float x = rand() % (int)WIDTH;
-		float y = rand() % (int)HEIGHT;
-		float z = rand() % 400;
-		std::cout << "point input | x : " << x << ", y : " << y << ", z : " << z << std::endl;
-		QPoint3D point(x, y, z);
-		QPoint3D* p = &point;
+	std::ifstream fin;
 
-		int depth = 0;
-		qt.insert(p, depth);
+	fin.open("C:\\Users\\WOOKJIN\\Dropbox\\X1\\pointtest\\100.txt");
 
-		std::cout << "Point Path : ";
-		std::vector<int> temp = p->GetPath();
-		for (int i = 0; i < temp.size(); i++) {
-			std::cout << temp[i] << " ";
+	std::vector<QPoint3D*> filePoints;
+	std::string line;
+
+	if (fin.is_open()) {
+		while (!fin.eof()) {
+			float x, y, z;
+			QPoint3D* coordinate = new QPoint3D;
+			getline(fin, line);
+			std::istringstream iss(line);
+			iss >> x >> y >> z;
+			coordinate->SetXYZ(x, y, z);
+			filePoints.push_back(coordinate);
 		}
-		std::cout << std::endl;
+	}
+	fin.close();
+
+	for (int i = 0; i < filePoints.size(); i++) {
+		std::cout << filePoints[i]->GetX() << " " << filePoints[i]->GetY() << " " << filePoints[i]->GetZ() << std::endl;
+	}
+
+	for (int i = 0; i < filePoints.size(); i++) {
+		int depth = 0;
+		std::cout << "Point : " << filePoints[i]->GetX() << ", " << filePoints[i]->GetY() << std::endl;
+		qt.insert(filePoints[i], depth);
+	}
+
+	for (int i = 0; i < filePoints.size(); i++) {
+		std::cout << filePoints[i]->GetX() << "\t" << filePoints[i]->GetY() << "\t" << filePoints[i]->GetZ();
+		std::cout << "\t| Path : ";
+		std::cout << filePoints[i]->GetStringPath() << std::endl;
 	}
 }

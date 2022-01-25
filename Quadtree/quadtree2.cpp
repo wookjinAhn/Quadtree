@@ -15,46 +15,51 @@ void Quadtree::subdivide() {
 	ne = new Quadtree(b_ne, mDepth, mCapacity);
 	sw = new Quadtree(b_sw, mDepth, mCapacity);
 	se = new Quadtree(b_se, mDepth, mCapacity);
-
+	
 	mDivided = true;
 }
 
 void Quadtree::insert(QPoint3D* p, int depth) {		// NW | NE		1 | 2 
 	parent = this;										// ---+---	   ---+---
-	mPoints.push_back(p);								// SW | SE		3 | 4
+	mPoints.push(p);								// SW | SE		3 | 4
+	std::cout << "insert ! " << std::endl;
+	std::cout << "boundary : " << parent->GetBoundary().GetX() << ", " << parent->GetBoundary().GetY() << std::endl;
 
 	if (mDepth <= depth)
 		return;
 
 	if (mCapacity < mPoints.size() && mDepth > depth) {
 		subdivide();
-		depth++;
 	}
 
 	if (mDivided) {
-		for (int i = 0; i < mPoints.size(); i++) {
-			if (nw->mBoundary.constains(mPoints[i])) {		// NW == 1
-				QPoint3D* point = mPoints[i];
+		std::cout << "mDivided true" << std::endl;   
+		while(!mPoints.empty()) {
+			QPoint3D* point = mPoints.front();
+			mPoints.pop();
+			std::cout << "point : " << point->GetX() << ", " << point->GetY() << ", " << point->GetZ() << std::endl;
+			if (nw->mBoundary.constains(point)) {		// NW == 1
 				parent = nw;
-				p->SetPath(1);
+				point->SetStringPath("1");
+				depth++;
 				parent->insert(point, depth);
 			}
-			else if (ne->mBoundary.constains(mPoints[i])) {	// NE == 2
-				QPoint3D* point = mPoints[i];
+			else if (ne->mBoundary.constains(point)) {	// NE == 2
 				parent = ne;
-				p->SetPath(2);
+				point->SetStringPath("2");
+				depth++;
 				parent->insert(point, depth);
 			}
-			else if (sw->mBoundary.constains(mPoints[i])) {	// SW == 3
-				QPoint3D* point = mPoints[i];
+			else if (sw->mBoundary.constains(point)) {	// SW == 3
 				parent = sw;
-				p->SetPath(3);
+				point->SetStringPath("3");
+				depth++;
 				parent->insert(point, depth);
 			}
-			else if (se->mBoundary.constains(mPoints[i])) {	// SE == 4
-				QPoint3D* point = mPoints[i];
+			else if (se->mBoundary.constains(point)) {	// SE == 4
 				parent = se;
-				p->SetPath(4);
+				point->SetStringPath("4");
+				depth++;
 				parent->insert(point, depth);
 			}
 		}

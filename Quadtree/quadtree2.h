@@ -1,12 +1,14 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <queue>
 #include <map>
 
 struct QPoint3D {	// 
 private:
 	float mX, mY, mZ;
-	std::vector<int> path;
+	std::vector<int> path;	
+	std::string mStringPath;
 
 public:
 	QPoint3D() : mX(0), mY(0), mZ(0) {}
@@ -16,8 +18,11 @@ public:
 	float GetY() const { return mY; }
 	float GetZ() const { return mZ; }
 	std::vector<int> GetPath() const { return path; }
+	std::string GetStringPath() const { return mStringPath; }
 
 	void SetPath(int path) { this->path.push_back(path); }
+	void SetStringPath(std::string path) { this->mStringPath.append(path); }
+	void SetXYZ(float x, float y, float z) { this->mX = x; this->mY = y; this->mZ = z; }
 };
 
 class QBox {
@@ -54,7 +59,7 @@ private:
 	Quadtree* sw = nullptr;
 	Quadtree* se = nullptr;
 
-	std::vector<QPoint3D*> mPoints;	// not use yet
+	std::queue<QPoint3D*> mPoints;	// not use yet
 
 public:
 	//Quadtree(Box _boundary, int _cap) : boundary(_boundary), cap(_cap) {}
