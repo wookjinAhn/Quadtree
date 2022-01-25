@@ -10,19 +10,17 @@ int main() {
 
 	float WIDTH = 400;
 	float HEIGHT = 400;
-	int CAPACITY = 3;
+	int CAPACITY = 2;
 	float MINSIZE = 200;
-	int DEPTH = 3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ;
+	int DEPTH = 5                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ;
 	
 	QBox boundary(WIDTH / 2, HEIGHT / 2, WIDTH / 2, HEIGHT / 2);	// (x, y, w, h)
 
 	//Quadtree qt(boundary, MINSIZE);
 	Quadtree qt(boundary, DEPTH, CAPACITY);
-	std::cout << "depth : " << qt.GetDepth() << std::endl;
 
 	std::ifstream fin;
-
-	fin.open("C:\\Users\\WOOKJIN\\Dropbox\\X1\\pointtest\\100.txt");
+	fin.open("C:\\Users\\WOOKJIN\\Dropbox\\X1\\pointtest\\500.txt");
 
 	std::vector<QPoint3D*> filePoints;
 	std::string line;
@@ -40,19 +38,20 @@ int main() {
 	}
 	fin.close();
 
-	for (int i = 0; i < filePoints.size(); i++) {
-		std::cout << filePoints[i]->GetX() << " " << filePoints[i]->GetY() << " " << filePoints[i]->GetZ() << std::endl;
-	}
+	//for (int i = 0; i < filePoints.size(); i++) {
+	//	std::cout << filePoints[i]->GetX() << " " << filePoints[i]->GetY() << " " << filePoints[i]->GetZ() << std::endl;
+	//}
 
 	for (int i = 0; i < filePoints.size(); i++) {
 		int depth = 0;
-		std::cout << "Point : " << filePoints[i]->GetX() << ", " << filePoints[i]->GetY() << std::endl;
+		//std::cout << "Point : " << filePoints[i]->GetX() << ", " << filePoints[i]->GetY() << std::endl;
 		qt.insert(filePoints[i], depth);
 	}
 
 	for (int i = 0; i < filePoints.size(); i++) {
 		std::cout << filePoints[i]->GetX() << "\t" << filePoints[i]->GetY() << "\t" << filePoints[i]->GetZ();
 		std::cout << "\t| Path : ";
-		std::cout << filePoints[i]->GetStringPath() << std::endl;
+		std::cout << filePoints[i]->GetStringPath();
+		std::cout << "\t| End Node XY : " << filePoints[i]->GetEndNodeXY().GetX() << ", " << filePoints[i]->GetEndNodeXY().GetY() << std::endl;
 	}
 }

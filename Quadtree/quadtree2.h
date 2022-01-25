@@ -4,9 +4,25 @@
 #include <queue>
 #include <map>
 
+class QPoint2D {
+private:
+	float mX, mY;
+
+public:
+	QPoint2D() : mX(0), mY(0) {}
+	QPoint2D(float x, float y) : mX(x), mY(y) {}
+
+	float GetX() const { return mX; }
+	float GetY() const { return mY; }
+
+	void SetX(float x) { this->mX = x; }
+	void SetY(float y) { this->mY = y; }
+};
+
 struct QPoint3D {	// 
 private:
 	float mX, mY, mZ;
+	QPoint2D mEndNodeXY;
 	std::vector<int> path;	
 	std::string mStringPath;
 
@@ -19,9 +35,12 @@ public:
 	float GetZ() const { return mZ; }
 	std::vector<int> GetPath() const { return path; }
 	std::string GetStringPath() const { return mStringPath; }
+	QPoint2D GetEndNodeXY() const { return mEndNodeXY; }
 
 	void SetPath(int path) { this->path.push_back(path); }
 	void SetStringPath(std::string path) { this->mStringPath.append(path); }
+	void SetEndNodeXY(QPoint2D endNodeXY) { this->mEndNodeXY = endNodeXY; }
+	void SetEndNodeXY(float x, float y) { this->mEndNodeXY.SetX(x); this->mEndNodeXY.SetY(y); }
 	void SetXYZ(float x, float y, float z) { this->mX = x; this->mY = y; this->mZ = z; }
 };
 

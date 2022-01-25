@@ -20,10 +20,10 @@ void Quadtree::subdivide() {
 }
 
 void Quadtree::insert(QPoint3D* p, int depth) {		// NW | NE		1 | 2 
-	parent = this;										// ---+---	   ---+---
+	//parent = this;										// ---+---	   ---+---
 	mPoints.push(p);								// SW | SE		3 | 4
-	std::cout << "insert ! " << std::endl;
-	std::cout << "boundary : " << parent->GetBoundary().GetX() << ", " << parent->GetBoundary().GetY() << std::endl;
+	//std::cout << "insert ! " << std::endl;
+	//std::cout << "boundary : " << parent->GetBoundary().GetX() << ", " << parent->GetBoundary().GetY() << std::endl;
 
 	if (mDepth <= depth)
 		return;
@@ -33,34 +33,34 @@ void Quadtree::insert(QPoint3D* p, int depth) {		// NW | NE		1 | 2
 	}
 
 	if (mDivided) {
-		std::cout << "mDivided true" << std::endl;   
+		//std::cout << "mDivided true" << std::endl;   
 		while(!mPoints.empty()) {
 			QPoint3D* point = mPoints.front();
 			mPoints.pop();
-			std::cout << "point : " << point->GetX() << ", " << point->GetY() << ", " << point->GetZ() << std::endl;
+			//std::cout << "point : " << point->GetX() << ", " << point->GetY() << ", " << point->GetZ() << std::endl;
 			if (nw->mBoundary.constains(point)) {		// NW == 1
 				parent = nw;
 				point->SetStringPath("1");
-				depth++;
-				parent->insert(point, depth);
+				point->SetEndNodeXY(parent->GetBoundary().GetX(), parent->GetBoundary().GetY());
+				parent->insert(point, ++depth);
 			}
 			else if (ne->mBoundary.constains(point)) {	// NE == 2
 				parent = ne;
 				point->SetStringPath("2");
-				depth++;
-				parent->insert(point, depth);
+				point->SetEndNodeXY(parent->GetBoundary().GetX(), parent->GetBoundary().GetY());
+				parent->insert(point, ++depth);
 			}
 			else if (sw->mBoundary.constains(point)) {	// SW == 3
 				parent = sw;
 				point->SetStringPath("3");
-				depth++;
-				parent->insert(point, depth);
+				point->SetEndNodeXY(parent->GetBoundary().GetX(), parent->GetBoundary().GetY());
+				parent->insert(point, ++depth);
 			}
 			else if (se->mBoundary.constains(point)) {	// SE == 4
 				parent = se;
 				point->SetStringPath("4");
-				depth++;
-				parent->insert(point, depth);
+				point->SetEndNodeXY(parent->GetBoundary().GetX(), parent->GetBoundary().GetY());
+				parent->insert(point, ++depth);
 			}
 		}
 	}
